@@ -1,0 +1,1 @@
+g++ AES_ECB.cpp -o executable  -lssl -lcrypto `pkg-config --cflags --libs opencv4` -I ~/cpp-libs/cxxopts/include
