@@ -10,8 +10,6 @@
 // AES key (32 bytes for AES-256)
 // Warning: For real applications, do NOT store secret keys in plaintext :)
 const unsigned char SUPER_SECRET_KEY[32] = "0123456789abcdef0123456789abcdef";
-//const unsigned char SUPER_SECRET_KEY[33] = "0123456789abcdef0123456789abcdef";
-// this array size is wrong because end of the c string literal add automatically \0 .
 
 // Encrypt a plaintext buffer using AES-256-ECB with PKCS#7 padding
 void encrypt(const std::vector<unsigned char>& plaintext,
@@ -182,16 +180,9 @@ void exec_encryption_image(){
             plaintext.insert(plaintext.end(), img.ptr<unsigned char>(i), img.ptr<unsigned char>(i) + img.cols * img.channels());
     }
 
-    // Pad rows to multiple of 16 for ECB
-    //int row_bytes = img.cols * img.channels();
-    
+   // Encrypt plaintext (AES-ECB: 16-byte blocks, padding may add bytes)
     std::vector<unsigned char> ciphertext;
     encrypt(plaintext, ciphertext);
-  
-// NOTE: AES-ECB encrypt data 16 bytes per block. 
-// If data not 16 bytes multiple, PKCS7 padding add extra bytes. 
-// So output can be little bigger than input. 
-// This padding make sure each block always 16 bytes.
   
     size_t valid_size = std::min(ciphertext.size(), plaintext.size());
 
@@ -199,11 +190,6 @@ void exec_encryption_image(){
     cv::Mat ecb_img(img.rows, img.cols, img.type(), (void*)ciphertext.data());
     ecb_img = ecb_img.clone(); 
     // clone() is like taking a snapshot, so OpenCV doesn't get confused by extra padding bytes
-
-
-    // Convert ciphertext back to image
-    //cv::Mat ecb_img(img.rows, row_bytes / img.channels(), img.type(), ciphertext.data());
-    // -- This line not need because ciphertext maybe bigger than original data. -- //
 
     // Save the ECB-encrypted image
     std::string filename_ecb = "ecb_leak.jpg";
@@ -291,8 +277,7 @@ int main(int argc, char* argv[]) {
 
         if (result.count("input")) {
             std::string input_string = result["input"].as<std::string>();
-            //std::cout << "Payload text: " << input_string << std::endl;
-            // not only text input --
+            std::cout << "Input text: " << input_string << std::endl;
             exec_encryption_input(input_string);
         }
 
@@ -317,11 +302,7 @@ int main(int argc, char* argv[]) {
         std::cout << options.help() << std::endl;
         return 1;
 
-    } // catch (const cxxopts::exceptions::exception& e) {
-      // std::cerr << "Error: " << e.what() << "\n\n";
-      //  std::cout << options.help() << std::endl;
-      //  return 1;
-   // } 
+    }
 
     return 0;
 }
