@@ -1,44 +1,51 @@
 # Crypto Assignment 1 
+AES encryption/decryption in ECB mode using C++ with OpenSSL and OpenCV. Can handle terminal input, text, and image files.
 
-## Running the code 
-The code has three ways it can be run: 
-- Give an input form terminal 
-```
-./executable -i Hello\ world! 
-```
-- Test with a text file named message.txt \
-```
-./executable -t txt
-```
-- test with a text image named linux_logo.jpeg 
-```
-./executable -t jpg
-```
-## Prerequisites 
-You need to install the following software: 
-- OpenSSL 
-- g++ 
-- openCV
-- cxxopts
+## Setup
 
+1. Clone repo:
 
-To install the necesseray software (for Ubuntu) you need to run the following command: 
-```
-sudo apt install g++ libssl-dev libopencv-dev   
-mkdir -p ~/cpp-libs/cxxopts/include
-cd ~/cpp-libs/cxxopts
-wget https://raw.githubusercontent.com/jarro2783/cxxopts/master/include/cxxopts.hpp -O include/cxxopts.hpp
-
-
+```bash
+git clone https://github.com/mat-tador/AES_ECB_mode.git
+cd AES_ECB_mode
 ```
 
-It is possible to check that the installation is done correctly by running the following commands: 
+2. Build Docker container:
+```bash
+docker build -t aes_ecb_env .
 ```
-openssl version 
-g++ --version
+4. Start container:
+```bash
+docker run -it aes_ecb_env
 ```
-## Compiling the code 
-In order to compile the code you must run: 
-```
+Inside the container, all dependencies (g++, OpenSSL, OpenCV, cxxopts) are ready.
+
+##Compile
+```bash
 bash compile.sh
 ```
+Creates executable named AES_ECB.
+
+##Run
+1. Terminal input - Encrypt/decrypt a custom string:
+```bash
+./AES_ECB -i "Hello world!"
+```
+3. Text file - Encrypt/decrypt message.txt:
+```bash
+./AES_ECB -t txt
+```
+4. Image file - Encrypt/decrypt linux_logo.jpg:
+```bash
+./AES_ECB -t jpg
+```
+5. Test vector verification - Check AES correctness:
+```bash
+./AES_ECB -v
+```
+##Notes
+- For text and image file tests, make sure message.txt or linux_logo.jpg exist in the repo directory.
+- Terminal input mode (-i) allows arbitrary strings.
+- AES-256-ECB uses PKCS#7 padding, so plaintext of any length works.
+- Custom test vector is included to verify encryption correctness.
+- You must run the executable manually inside Docker.
