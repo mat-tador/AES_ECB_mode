@@ -16,11 +16,17 @@ RUN apt-get update && apt-get install -y \
     make \
     && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update && apt-get install -y \
+    libgtk2.0-dev \
+    libcanberra-gtk-module \
+    libcanberra-gtk3-module
+
+
 # Download cxxopts.hpp
 RUN git clone --branch v3.3.1 --depth 1 https://github.com/jarro2783/cxxopts.git /root/cpp-libs/cxxopts
 
 WORKDIR /AES_ECB_mode
-RUN git clone https://github.com/mat-tador/AES_ECB_mode.git
+COPY . /AES_ECB_mode  
 
 # Open container with bash, no automatic execution
 CMD ["/bin/bash"]

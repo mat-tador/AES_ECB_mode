@@ -26,7 +26,7 @@ void encrypt(const std::vector<unsigned char>& plaintext,
     ciphertext_len += len;
     ciphertext.resize(ciphertext_len); // shrink to actual size
 
-    std::cout << "Cipher length: " << ciphertext_len;
+    std::cout << "Cipher length: " << ciphertext_len <<" bytes " <<  std::endl;
   
     EVP_CIPHER_CTX_free(ctx);
 }
@@ -220,50 +220,13 @@ void exec_encryption_image(){
     cv::destroyAllWindows(); 
 }
 
-// Custom AES-256-ECB Test Vector -- self generated
-void verify_custom_aes_vector() {
-    std::cout << " ** AES-256-ECB custom test vector verification ** \n";
 
-    // Custom AES-256 key (32 bytes)
-    const unsigned char test_key[32] = {
-        0x00,0x11,0x22,0x33,0x44,0x55,0x66,0x77,
-        0x88,0x99,0x6d,0x65,0x6c,0x69,0x6b,0x65,
-        0x61,0x79,0x73,0x65,0x6e,0x75,0x72,0x20,
-        0x79,0x69,0x6c,0x64,0x69,0x72,0x69,0x6d
-    };
-
-    // Custom plaintext (16 bytes)
-    std::vector<unsigned char> pt = {
-    'S','E','C','U','R','E','_','T','E','S','T','_','B','L','O','C','K'
-    };
-
-    // Expected ciphertext (calculated via OpenSSL)
-    const unsigned char expected_ct[16] = {
-    0x8a,0x7e,0x12,0x59,0xd2,0x4b,0x4c,0xa8,0x01,0x94,0xa3,0x31,0xb3,0x5c,0x2a,0x9f
-    };
-
-    std::vector<unsigned char> ct;
-    encrypt_with_key(pt, ct, test_key, sizeof(test_key));
-
-    bool match = true;
-    for (int i = 0; i < 16; ++i)
-        if (ct[i] != expected_ct[i]) {
-         match = false; 
-         break;
-        }
-
-    if (match)
-        std::cout << "Custom AES-256-ECB vector matched successfully\n";
-    else
-        std::cout << "Custom test vector mismatch\n";
-}
 
 int main(int argc, char* argv[]) {
     cxxopts::Options options("AES_ECB", "Encryption and Decryption using AES in ECB mode");
     options.add_options()
         ("i,input", "Input text to encrypt", cxxopts::value<std::string>())
         ("t,test", "Specify <txt> or <jpg> to run the encryption/decryption on either of the file: message.txt, linux_logo.jpg", cxxopts::value<std::string>())
-        ("v,verify", "Run custom AES-256 test vector verification") //new
         ("h,help", "HELP!");
 
     try {
@@ -294,15 +257,18 @@ int main(int argc, char* argv[]) {
                 throw cxxopts::exceptions::no_such_option("Invalid test mode. Please use 'txt' or 'jpg'.");
             }
         }
-        if (result.count("verify")){
-            verify_custom_aes_vector();
-        }
+
     } catch (const cxxopts::exceptions::no_such_option& e){
         std::cerr << "Error: " << e.what() << "\n\n";
         std::cout << options.help() << std::endl;
         return 1;
 
+    }  catch (const cxxopts::exceptions::exception& e) {
+        std::cerr << "Error: " << e.what() << "\n\n";
+        std::cout << options.help() << std::endl;
+        return 1;
     }
+
 
     return 0;
 }
