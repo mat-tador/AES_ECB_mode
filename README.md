@@ -54,9 +54,12 @@ Creates executable named AES_ECB.
 ```bash
 ./AES_ECB -t jpg -k <valid key size>
 ```
-
-4. For Windows/mac to visualize image:
+4. Test vector verification - AES-ECB correctness:
+```bash
+./AES_ECB -k <valid key size> -v
+```
+5. For Windows/mac to visualize image:
 ```
 jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root
 ```
-5. After the start of the jupyter notebook, run the show_results.ipynb 
+6. After the start of the jupyter notebook, run the show_results.ipynb 
