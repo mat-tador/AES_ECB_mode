@@ -3,3 +3,4 @@ executable
 decrypted.jpg
 ecb_leak.jpg
 comparison.png
+AES_ECB

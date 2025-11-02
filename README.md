@@ -24,11 +24,15 @@ xhost +local:docker
 ```bash
 sudo docker build -t aes_ecb .
 ```
-4. Start container:
+4. Start container (UBUNTU):
 ```bash
-sudo docker run -it   --env DISPLAY=$DISPLAY   -v /tmp/.X11-unix:/tmp/.X11-unix   -v /home/mattiafiore/Desktop/melike/AES_ECB_mode:/AES_ECB_mode   aes_ecb_mode
+sudo docker run -it   --env DISPLAY=$DISPLAY   -v /tmp/.X11-unix:/tmp/.X11-unix   -v /<yourpath>/AES_ECB_mode:/AES_ECB_mode   aes_ecb_mode
 ```
 Inside the container, all dependencies (g++, OpenSSL, OpenCV, cxxopts) are ready.
+5. Start container (Windows/MacOS)
+```
+sudo docker run -it -p 8888:8888  -v /<yourpath>/AES_ECB_mode     aes_ecb_mode
+```
 
 ## Compile
 ```bash
@@ -37,6 +41,7 @@ bash compile.sh
 Creates executable named AES_ECB.
 
 ## Run
+
 1. Terminal input - Encrypt/decrypt a custom string:
 ```bash
 ./AES_ECB -i "Hello world!"
@@ -49,3 +54,9 @@ Creates executable named AES_ECB.
 ```bash
 ./AES_ECB -t jpg
 ```
+
+4. For Windows/mac to visualize image:
+```
+jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+```
+5. After the start of the jupyter notebook, run the show_results.ipynb 

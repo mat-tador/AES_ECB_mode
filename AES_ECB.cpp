@@ -224,11 +224,8 @@ void exec_encryption_image(){
         cv::waitKey(0); 
         cv::destroyAllWindows(); 
     } else {
-        std::cout << "No GUI detected. Launching Python script for cross-platform display...\n";
-        int ret = std::system("python3 ./show_img.py");
-        if (ret != 0) {
-            std::cerr << "Failed to run Python script.\n";
-        }
+        std::cout << "No GUI detected. Launching Python script for cross-platform display...\n" << std::endl;
+        std::cout << "Execute Jupyter notebook to see the results ..." << std::endl;  
     }
 }
 

@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python packages
-RUN pip3 install --no-cache-dir matplotlib numpy opencv-python
+RUN pip3 install --no-cache-dir matplotlib numpy jupyter opencv-python
 
 # Download cxxopts library
 RUN git clone --branch v3.3.1 --depth 1 https://github.com/jarro2783/cxxopts.git /root/cpp-libs/cxxopts
@@ -29,6 +29,8 @@ RUN git clone --branch v3.3.1 --depth 1 https://github.com/jarro2783/cxxopts.git
 # Working directory
 WORKDIR /AES_ECB_mode
 COPY . /AES_ECB_mode
+
+EXPOSE 8888
 
 # Default command: bash
 CMD ["/bin/bash"]
