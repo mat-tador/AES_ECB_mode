@@ -1,32 +1,34 @@
-# Use Ubuntu 22.04 as base image
+# Base image
 FROM ubuntu:22.04
 
-# Set non-interactive mode for apt
+# Non-interactive apt
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Update and install required packages
+# Install C++ tools, OpenCV, Python
 RUN apt-get update && apt-get install -y \
     g++ \
-    libssl-dev \
-    libopencv-dev \
-    wget \
-    git \
-    pkg-config \
     cmake \
     make \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN apt-get update && apt-get install -y \
+    pkg-config \
+    git \
+    wget \
+    libssl-dev \
+    libopencv-dev \
     libgtk2.0-dev \
     libcanberra-gtk-module \
-    libcanberra-gtk3-module
+    libcanberra-gtk3-module \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
 
+# Install Python packages
+RUN pip3 install --no-cache-dir matplotlib numpy opencv-python
 
-# Download cxxopts.hpp
+# Download cxxopts library
 RUN git clone --branch v3.3.1 --depth 1 https://github.com/jarro2783/cxxopts.git /root/cpp-libs/cxxopts
 
+# Working directory
 WORKDIR /AES_ECB_mode
-COPY . /AES_ECB_mode  
+COPY . /AES_ECB_mode
 
-# Open container with bash, no automatic execution
+# Default command: bash
 CMD ["/bin/bash"]

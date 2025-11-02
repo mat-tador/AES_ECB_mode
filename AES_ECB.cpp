@@ -211,13 +211,25 @@ void exec_encryption_image(){
     std::cout << "Decrypted image saved as " << filename_decrypted << std::endl;
 
   // Display both original (decrypted) and ECB-encrypted images side by side
-    cv::Mat canvas(img.rows, img.cols*2, img.type()); 
-    decrypted_img.copyTo(canvas(cv::Rect(0, 0, img.cols, img.rows))); 
-    ecb_img.copyTo(canvas(cv::Rect(img.cols, 0, img.cols, img.rows))); 
+
+    const char* display = std::getenv("DISPLAY");  // Legge la variabile DISPLAY
+    bool gui_available = (display != nullptr && std::string(display) != "");
+
+    if (gui_available){
+        cv::Mat canvas(img.rows, img.cols*2, img.type()); 
+        decrypted_img.copyTo(canvas(cv::Rect(0, 0, img.cols, img.rows))); 
+        ecb_img.copyTo(canvas(cv::Rect(img.cols, 0, img.cols, img.rows))); 
   
-    cv::imshow("Plain (Left) vs ECB encripted (Right)", canvas); 
-    cv::waitKey(0); 
-    cv::destroyAllWindows(); 
+        cv::imshow("Plain (Left) vs ECB encripted (Right)", canvas); 
+        cv::waitKey(0); 
+        cv::destroyAllWindows(); 
+    } else {
+        std::cout << "No GUI detected. Launching Python script for cross-platform display...\n";
+        int ret = std::system("python3 ./show_img.py");
+        if (ret != 0) {
+            std::cerr << "Failed to run Python script.\n";
+        }
+    }
 }
 
 

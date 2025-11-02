@@ -2,3 +2,4 @@
 executable
 decrypted.jpg
 ecb_leak.jpg
+comparison.png
