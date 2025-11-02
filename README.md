@@ -26,12 +26,12 @@ sudo docker build -t aes_ecb .
 ```
 4. Start container (UBUNTU):
 ```bash
-sudo docker run -it   --env DISPLAY=$DISPLAY   -v /tmp/.X11-unix:/tmp/.X11-unix   -v $(pwd):/AES_ECB_mode   aes_ecb_mode
+sudo docker run -it   --env DISPLAY=$DISPLAY   -v /tmp/.X11-unix:/tmp/.X11-unix   -v $(pwd):/AES_ECB_mode   aes_ecb
 ```
 Inside the container, all dependencies (g++, OpenSSL, OpenCV, cxxopts) are ready.
 5. Start container (Windows/MacOS)
 ```
-sudo docker run -it -p 8888:8888  -v $(pwd):/AES_ECB_mode     aes_ecb_mode
+sudo docker run -it -p 8888:8888  -v $(pwd):/AES_ECB_mode     aes_ecb
 ```
 
 ## Compile
@@ -44,15 +44,15 @@ Creates executable named AES_ECB.
 
 1. Terminal input - Encrypt/decrypt a custom string:
 ```bash
-./AES_ECB -i "Hello world!"
+./AES_ECB -i "Hello world!" -k <valid key size>
 ```
 2. Text file - Encrypt/decrypt message.txt:
 ```bash
-./AES_ECB -t txt
+./AES_ECB -t txt -k <valid key size>
 ```
 3. Image file - Encrypt/decrypt linux_logo.jpg:
 ```bash
-./AES_ECB -t jpg
+./AES_ECB -t jpg -k <valid key size>
 ```
 
 4. For Windows/mac to visualize image:
