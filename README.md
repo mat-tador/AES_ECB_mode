@@ -26,12 +26,12 @@ sudo docker build -t aes_ecb .
 ```
 4. Start container (UBUNTU):
 ```bash
-sudo docker run -it   --env DISPLAY=$DISPLAY   -v /tmp/.X11-unix:/tmp/.X11-unix   -v /<yourpath>/AES_ECB_mode:/AES_ECB_mode   aes_ecb_mode
+sudo docker run -it   --env DISPLAY=$DISPLAY   -v /tmp/.X11-unix:/tmp/.X11-unix   -v $(pwd):/AES_ECB_mode   aes_ecb_mode
 ```
 Inside the container, all dependencies (g++, OpenSSL, OpenCV, cxxopts) are ready.
 5. Start container (Windows/MacOS)
 ```
-sudo docker run -it -p 8888:8888  -v /<yourpath>/AES_ECB_mode     aes_ecb_mode
+sudo docker run -it -p 8888:8888  -v $(pwd):/AES_ECB_mode     aes_ecb_mode
 ```
 
 ## Compile
