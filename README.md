@@ -16,7 +16,7 @@ For ubuntu: [ubuntu installation](https://docs.docker.com/desktop/setup/install/
 git clone https://github.com/mat-tador/AES_ECB_mode.git
 cd AES_ECB_mode
 ```
-2. Allow local Docker containers to access the host X11 display for GUI applications.
+2. (ONLY for UBUNTU) Allow local Docker containers to access the host X11 display for GUI applications.
 ```
 xhost +local:docker
 ```
