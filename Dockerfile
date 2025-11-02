@@ -16,13 +16,11 @@ RUN apt-get update && apt-get install -y \
     make \
     && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
-WORKDIR /AES_ECB_mode
-
 # Download cxxopts.hpp
-RUN mkdir -p ./cpp-libs/cxxopts/include
-RUN wget https://raw.githubusercontent.com/jarro2783/cxxopts/master/include/cxxopts.hpp \
-    -O ./cpp-libs/cxxopts/include/cxxopts.hpp
+RUN git clone --branch v3.3.1 --depth 1 https://github.com/jarro2783/cxxopts.git /root/cpp-libs/cxxopts
+
+WORKDIR /AES_ECB_mode
+RUN git clone https://github.com/mat-tador/AES_ECB_mode.git
 
 # Open container with bash, no automatic execution
 CMD ["/bin/bash"]

@@ -9,7 +9,7 @@
 
 // AES key (32 bytes for AES-256)
 // Warning: For real applications, do NOT store secret keys in plaintext :)
-const unsigned char SUPER_SECRET_KEY[32] = "0123456789abcdef0123456789abcdef";
+const unsigned char SUPER_SECRET_KEY[33] = "0123456789abcdef0123456789abcdef";
 
 // Encrypt a plaintext buffer using AES-256-ECB with PKCS#7 padding
 void encrypt(const std::vector<unsigned char>& plaintext,
