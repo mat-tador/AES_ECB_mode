@@ -24,16 +24,34 @@ xhost +local:docker
 ```bash
 sudo docker build -t aes_ecb .
 ```
-4. Start container (UBUNTU):
+for Windows CMD-PowerShell:
+```bash
+docker buildx build --load -t aes_ecb .
+```
+
+4. Start container 
+(UBUNTU):
 ```bash
 sudo docker run -it   --env DISPLAY=$DISPLAY   -v /tmp/.X11-unix:/tmp/.X11-unix   -v $(pwd):/AES_ECB_mode   aes_ecb
 ```
 Inside the container, all dependencies (g++, OpenSSL, OpenCV, cxxopts) are ready.
-5. Start container (Windows/MacOS)
+(MacOS):
 ```
 sudo docker run -it -p 8888:8888  -v $(pwd):/AES_ECB_mode     aes_ecb
 ```
-
+(Windows CMD):
+```
+docker run -it -p 8888:8888 -v "%cd%":/AES_ECB_mode aes_ecb
+```
+(Windows Powershell):
+```
+docker run -it -p 8888:8888 -v ${PWD}:/AES_ECB_mode aes_ecb
+```
+(Windows CMD-Powershell)
+```
+cp /root/cpp-libs/cxxopts/include/cxxopts.hpp /AES_ECB_mode/
+sed -i 's/\r$//' compile.sh
+```
 ## Compile
 ```bash
 bash compile.sh
@@ -58,7 +76,7 @@ Creates executable named AES_ECB.
 ```bash
 ./AES_ECB -k <valid key size> -v
 ```
-5. For Windows/mac to visualize image:
+5. For Windows/MacOS to visualize image:
 ```
 jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root
 ```
